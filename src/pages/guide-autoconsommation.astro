@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StepsForm from '../components/StepsForm.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Guide de l'Autoconsommation Solaire Bouches-du-Rhône (13) | Fonctionnement`;
+const description = `Découvrez comment fonctionne l'autoconsommation photovoltaïque dans les Bouches-du-Rhône, revente de surplus à EDF OA et optimisation des gains.`;
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={[
+      { label: "Accueil", href: "/" },
+      { label: "Guide Autoconsommation" }
+    ]}
+  />
+
+  <Breadcrumb items={[
+    { label: "Accueil", href: "/" },
+    { label: "Guide de l'Autoconsommation Solaire", href: "/guide-autoconsommation/" }
+  ]} />
+
+  <section class="static-page-section" style="background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content -->
+        <div>
+          <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 900; color: var(--primary); margin-bottom: 25px;">
+            Guide complet de l'Autoconsommation Solaire dans le 13
+          </h1>
+          
+          <p style="font-size: 16px; line-height: 1.7; color: var(--text); margin-bottom: 30px;">
+            L'autoconsommation consiste à consommer directement l'électricité produite par vos propres panneaux photovoltaïques installés sur votre toiture. En Provence, grâce à un ensoleillement de 2 900h/an, cette solution est particulièrement performante pour réduire vos factures d'énergie en journée.
+          </p>
+
+          <h2 style="font-family: var(--font-heading); font-size: 22px; color: var(--primary); margin-top: 30px; margin-bottom: 15px;">1. Comment fonctionne l'autoconsommation photovoltaïque ?</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            Vos panneaux solaires monocristallins captent la lumière du soleil et la transforment en courant continu. L'onduleur ou les micro-onduleurs transforment ce courant continu en courant alternatif (230V) compatible avec vos appareils ménagers. 
+          </p>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            Cette électricité verte alimente en priorité les appareils électriques de votre maison qui fonctionnent au même moment (filtration de piscine, climatisation, réfrigérateur, box internet). Si vous produisez plus que nécessaire, le surplus est envoyé sur le réseau Enedis.
+          </p>
+
+          <h2 style="font-family: var(--font-heading); font-size: 22px; color: var(--primary); margin-top: 30px; margin-bottom: 15px;">2. Autoconsommation avec revente du surplus</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            C'est la solution choisie par plus de 90% des particuliers équipés dans les Bouches-du-Rhône. Elle permet de :
+          </p>
+          <ul style="margin-left: 20px; color: var(--text-muted); font-size: 14.5px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 30px;">
+            <li><strong>Réduire vos factures d'électricité :</strong> Vous achetez moins d'électricité à votre fournisseur d'énergie car vous consommez votre propre production en direct.</li>
+            <li><strong>Générer des revenus passifs :</strong> Le surplus injecté sur le réseau est acheté par EDF Obligation d'Achat (EDF OA) à un tarif réglementé garanti pendant 20 ans (13 cts/kWh en 2026).</li>
+            <li><strong>Bénéficier des primes de l'État :</strong> L'autoconsommation avec vente de surplus ouvre droit à la prime à l'autoconsommation photovoltaïque versée par l'État.</li>
+          </ul>
+
+          <h2 style="font-family: var(--font-heading); font-size: 22px; color: var(--primary); margin-top: 30px; margin-bottom: 15px;">3. Comment maximiser son taux d'autoconsommation ?</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            Pour rentabiliser au plus vite votre investissement solaire dans les Bouches-du-Rhône, l'objectif est d'utiliser un maximum d'électricité solaire et d'acheter le moins de kWh possible au réseau. Voici comment faire :
+          </p>
+          <ul style="margin-left: 20px; color: var(--text-muted); font-size: 14.5px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 30px;">
+            <li><strong>Programmez vos appareils énergivores en journée :</strong> Déclenchez le chauffe-eau thermodynamique, le lave-linge et le lave-vaisselle entre 11h et 15h, quand l'ensoleillement et la production photovoltaïque sont à leur maximum.</li>
+            <li><strong>Faites tourner votre pompe de piscine sous le soleil :</strong> La filtration de piscine consomme beaucoup et doit idéalement fonctionner en été durant les heures chaudes, coïncidant parfaitement avec la production solaire.</li>
+            <li><strong>Climatisez intelligemment :</strong> Utilisez la climatisation pour refroidir les pièces en milieu d'après-midi grâce à l'énergie solaire gratuite, plutôt que de la lancer le soir au tarif plein d'EDF.</li>
+          </ul>
+        </div>
+
+        <!-- Sidebar form -->
+        <aside class="static-sidebar">
+          <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-lg);">
+            <h3 style="text-align: center; margin-bottom: 15px; font-family: var(--font-heading);">Étude Solaire Gratuite</h3>
+            <StepsForm />
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>

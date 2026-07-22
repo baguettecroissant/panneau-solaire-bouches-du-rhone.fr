@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Demande d'étude solaire reçue | ${config.brandName}`;
+const description = `Votre demande d'étude de rentabilité solaire dans les Bouches-du-Rhône (13) a bien été enregistrée et transmise à nos installateurs partenaires RGE QualiPV.`;
+---
+
+<Layout title={title} description={description} robots="noindex, nofollow">
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+  />
+
+  <section class="static-page-section" style="background-color: var(--bg); text-align: center; padding: 100px 0;">
+    <div class="container" style="max-width: 600px;">
+      <div style="background: white; border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 50px 40px; box-shadow: var(--shadow-lg);">
+        <div style="font-size: 64px; margin-bottom: 20px;">🎉</div>
+        
+        <h1 style="font-size: 28px; margin-bottom: 15px; color: var(--primary);">
+          Merci <span id="client-name"></span> !
+        </h1>
+        
+        <p style="font-size: 16.5px; color: var(--text); line-height: 1.6; margin-bottom: 30px;">
+          Votre demande de devis pour vos panneaux solaires à <strong id="project-city" style="color: var(--primary);">votre commune</strong> a bien été enregistrée sous la référence <strong id="devis-id" style="font-family: var(--font-mono); color: var(--secondary);">#------</strong>.
+        </p>
+
+        <div style="background: var(--primary-light); border-radius: var(--radius-md); padding: 20px; border-left: 4px solid var(--primary); text-align: left; margin-bottom: 35px;">
+          <h3 style="font-size: 16px; margin-bottom: 8px; color: var(--primary); font-weight: 700;">Prochaines étapes :</h3>
+          <ol style="margin-left: 20px; font-size: 14.5px; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px; padding: 0;">
+            <li><strong>Validation par Téléphone :</strong> Un conseiller va prendre contact pour valider l'étude de faisabilité technique de votre toiture.</li>
+            <li><strong>Sélection des installateurs :</strong> Jusqu'à 3 installateurs partenaires RGE QualiPV du 13 étudieront votre dossier.</li>
+            <li><strong>Étude de rentabilité :</strong> Vous recevez des propositions chiffrées détaillant les économies garanties et la prime d'État.</li>
+          </ol>
+        </div>
+
+        <!-- ViteUnDevis Spinner — Améliore le taux de validation SMS de +20% -->
+        <div id="vud_spin_163639" style="margin: 25px auto; max-width: 500px;"></div>
+        <script is:inline>
+          document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const devisId = params.get('devis_id');
+            const devisHash = params.get('devis_hash');
+            
+            if (devisId && devisHash) {
+              const vud_js = document.createElement('script');
+              vud_js.type = 'text/javascript';
+              vud_js.src = 'https://www.viteundevis.com/mb/spinner.php?devis_id=' + devisId + '&devis_hash=' + devisHash + '&box=163639';
+              const s = document.getElementsByTagName('script')[0];
+              if (s && s.parentNode) {
+                s.parentNode.insertBefore(vud_js, s);
+              } else {
+                document.body.appendChild(vud_js);
+              }
+            }
+          });
+        </script>
+        
+        <a href="/" class="contact-btn" style="text-decoration: none; display: inline-block; margin-top: 15px;">
+          &larr; Retourner à l'accueil
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const devisId = params.get('devis_id') || '13' + Math.floor(Math.random() * 90000 + 10000);
+    const prenom = params.get('prenom') || 'Cher propriétaire';
+    const ville = params.get('ville') || "Bouches-du-Rhône";
+
+    const nameEl = document.getElementById('client-name');
+    const cityEl = document.getElementById('project-city');
+    const devisEl = document.getElementById('devis-id');
+
+    if (nameEl) nameEl.textContent = prenom;
+    if (cityEl) cityEl.textContent = ville;
+    if (devisEl) devisEl.textContent = '#' + devisId;
+  });
+</script>

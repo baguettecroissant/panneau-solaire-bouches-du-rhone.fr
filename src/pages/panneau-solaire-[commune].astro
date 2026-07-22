@@ -1,0 +1,319 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import StepsForm from '../components/StepsForm.astro';
+import CityMap from '../components/CityMap.astro';
+import communes from '../data/communes.json';
+import { generateCommuneContent, getDynamicPrices } from '../lib/contentEngine';
+import { getSmartNearbyCommunes } from '../lib/geoLinks';
+
+export async function getStaticPaths() {
+  return communes.map((c) => ({
+    params: { commune: c.slug },
+    props: { commune: c },
+  }));
+}
+
+const { commune } = Astro.props;
+const pageType = 'panneau';
+const local = generateCommuneContent(commune, pageType);
+const prices = getDynamicPrices(commune);
+const nearby = getSmartNearbyCommunes(commune.slug, communes, 5, 2);
+
+const title = `Panneaux Solaires à ${commune.nom} (${commune.codePostal}) — Devis Solaire RGE`;
+const description = `${local.introParagraph} Devis gratuits d'installateurs photovoltaïques RGE QualiPV dans les Bouches-du-Rhône. Tarifs solaires adaptés à ${commune.nom}.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Villes Bouches-du-Rhône", href: "/communes/" },
+  { label: `Panneaux Solaires ${commune.nom}` }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    faqItems={local.faqItems}
+    breadcrumbItems={[
+      { label: "Accueil", href: "/" },
+      { label: "Villes Bouches-du-Rhône", href: "/communes/" },
+      { label: `Panneaux Solaires ${commune.nom}` }
+    ]}
+    communeName={commune.nom}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <!-- Localized Hero Section -->
+  <section style="background: linear-gradient(135deg, rgba(180,83,9,0.06) 0%, rgba(5,150,105,0.03) 100%); padding: 50px 0; border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="two-column-layout">
+        <!-- Hero Text -->
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <div style="background: rgba(180, 83, 9, 0.08); color: var(--primary); border: 1px solid rgba(180, 83, 9, 0.15); display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 30px; font-size: 12.5px; font-weight: 700; width: max-content; margin-bottom: 20px;">
+            <span>☀️</span> Ensoleillement exceptionnel — Solaire {commune.nom}
+          </div>
+          <h1 style="font-family: var(--font-heading); font-size: 38px; font-weight: 900; color: var(--primary); line-height: 1.25; margin-bottom: 20px;">
+            Installation de Panneaux Solaires à <span style="color: var(--secondary);">{commune.nom}</span>
+          </h1>
+          <p style="font-size: 16.5px; line-height: 1.6; color: var(--text); margin-bottom: 25px;">
+            {local.introParagraph}
+          </p>
+          
+          <div style="background: white; border: 1.5px solid var(--border-color); border-left: 4px solid var(--secondary); padding: 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); margin-bottom: 25px;">
+            <div style="font-weight: 800; color: var(--primary); margin-bottom: 5px; font-size: 14.5px;">💡 Note du Spécialiste Solaire :</div>
+            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.5;">
+              {local.vitrageRecommendation}
+            </p>
+          </div>
+        </div>
+
+        <!-- Hero Form -->
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px 22px; box-shadow: var(--shadow-lg);">
+          <h2 style="font-family: var(--font-heading); font-size: 22px; font-weight: 850; color: var(--primary); text-align: center; margin-bottom: 20px;">
+            Calculer mes aides &amp; Comparer 3 Devis
+          </h2>
+          <StepsForm initialZip={commune.codePostal} initialCommune={commune.nom} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Analysis Section -->
+  <section style="padding: 70px 0; background-color: var(--bg);">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto 50px;">
+        <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 850; color: var(--primary); margin-bottom: 15px;">
+          Analyse Solaire &amp; Résistance Technique à {commune.nom}
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted);">
+          Comprendre l'influence du microclimat, du Mistral et du relief sur vos modules photovoltaïques.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+          <div style="font-size: 28px; margin-bottom: 12px;">🌬️</div>
+          <h3 style="font-family: var(--font-heading); font-size: 18.5px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Résistance mécanique &amp; Mistral</h3>
+          <p style="font-size: 14.0px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            {local.climateContext}
+          </p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+          <div style="font-size: 28px; margin-bottom: 12px;">🏛️</div>
+          <h3 style="font-family: var(--font-heading); font-size: 18.5px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Urbanisme &amp; Architecte ABF</h3>
+          <p style="font-size: 14.0px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            {local.abfRegulations}
+          </p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+          <div style="font-size: 28px; margin-bottom: 12px;">🏡</div>
+          <h3 style="font-family: var(--font-heading); font-size: 18.5px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Typologie de la Toiture Locale</h3>
+          <p style="font-size: 14.0px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            {local.housingTypologyInsight}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Profil Énergétique Section -->
+  <section style="padding: 70px 0; background-color: var(--card-bg); border-top: 1px solid var(--border-color);">
+    <div class="container" style="max-width: 900px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-family: var(--font-heading); font-size: 30px; font-weight: 850; color: var(--primary); margin-bottom: 15px;">
+          Bilan Énergétique &amp; Solaire à {commune.nom} ({commune.codePostal})
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted);">
+          Diagnostic du gisement solaire et rentabilité de la micro-production photovoltaïque locale.
+        </p>
+      </div>
+
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm); margin-bottom: 25px;">
+        <div style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px;">
+          <span style="font-size: 32px;">🔥</span>
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Enjeux de la facture d'électricité locale</h3>
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+              {local.energyProfileText}
+            </p>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 15px;">
+          <span style="font-size: 32px;">📈</span>
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Estimation de valorisation patrimoniale</h3>
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+              {local.realEstateInsight}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Maps Embed -->
+      <CityMap cityName={commune.nom} zip={commune.codePostal} />
+    </div>
+  </section>
+
+  <!-- Local Pricing Grid -->
+  <section style="padding: 70px 0; background-color: var(--bg); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container" style="max-width: 900px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-family: var(--font-heading); font-size: 30px; font-weight: 850; color: var(--primary); margin-bottom: 15px;">
+          Tarifs Solaires à {commune.nom} (2026)
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted);">
+          {local.tableIntro}
+        </p>
+      </div>
+
+      <div class="table-scroll-wrapper" style="border: 1px solid var(--border-color); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow: hidden; background: white;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Type d'installation</th>
+              <th>Production Estimée à {commune.nom}</th>
+              <th style="text-align: right;">Prix Moyen TTC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight: 600;">Kit Solaire 3 kWc (8 panneaux)</td>
+              <td>~{prices.kit3kwc.prodAn.toLocaleString('fr-FR')} kWh / an</td>
+              <td style="text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">{prices.kit3kwc.min.toLocaleString('fr-FR')} – {prices.kit3kwc.max.toLocaleString('fr-FR')} €</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">Kit Solaire 6 kWc (16 panneaux)</td>
+              <td>~{prices.kit6kwc.prodAn.toLocaleString('fr-FR')} kWh / an</td>
+              <td style="text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">{prices.kit6kwc.min.toLocaleString('fr-FR')} – {prices.kit6kwc.max.toLocaleString('fr-FR')} €</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">Kit Solaire 9 kWc (24 panneaux)</td>
+              <td>~{prices.kit9kwc.prodAn.toLocaleString('fr-FR')} kWh / an</td>
+              <td style="text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">{prices.kit9kwc.min.toLocaleString('fr-FR')} – {prices.kit9kwc.max.toLocaleString('fr-FR')} €</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">Batterie Lithium 5 kWh</td>
+              <td>Stockage nocturne dans le garage</td>
+              <td style="text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">{prices.batterie5kwh.min.toLocaleString('fr-FR')} – {prices.batterie5kwh.max.toLocaleString('fr-FR')} €</td>
+            </tr>
+            <tr>
+              <td style="font-weight: 600;">Carport Solaire (2 voitures)</td>
+              <td>Abri équipé de modules intégrés</td>
+              <td style="text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">{prices.carportSolaire.min.toLocaleString('fr-FR')} – {prices.carportSolaire.max.toLocaleString('fr-FR')} €</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="background: white; border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm); display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+        <div>
+          <h4 style="font-size: 14px; text-transform: uppercase; color: var(--secondary); font-weight: 700; margin-bottom: 5px;">💡 Conseil d'expert :</h4>
+          <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin: 0;">{local.expertTip}</p>
+        </div>
+        <div>
+          <h4 style="font-size: 14px; text-transform: uppercase; color: var(--secondary); font-weight: 700; margin-bottom: 5px;">💰 Potentiel d'économies :</h4>
+          <p style="font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin: 0;">{local.savingsEstimate}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Step-by-Step Pose Steps -->
+  <section style="padding: 70px 0; background-color: var(--card-bg);">
+    <div class="container" style="max-width: 900px;">
+      <div style="text-align: center; margin-bottom: 50px;">
+        <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 850; color: var(--primary); margin-bottom: 15px;">
+          Déroulement de l'Installation Solaire à {commune.nom}
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted);">
+          {local.calendrierRenovation} Les 5 étapes de la pose par nos artisans RGE QualiPV.
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 30px; position: relative;">
+        {local.poseSteps.map((step, idx) => (
+          <div style="display: flex; gap: 20px; background: var(--bg); border: 1px solid var(--border-color); padding: 25px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); position: relative; z-index: 2;">
+            <div style="background: var(--secondary); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; flex-shrink: 0;">
+              {idx + 1}
+            </div>
+            <div>
+              <h3 style="font-family: var(--font-heading); font-size: 18.5px; font-weight: 800; color: var(--primary); margin-bottom: 8px;">
+                {step.title}
+              </h3>
+              <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+                {step.description}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Spinned Local FAQ Section -->
+  <section style="padding: 70px 0; background-color: var(--bg); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container" style="max-width: 800px;">
+      <h2 style="font-family: var(--font-heading); font-size: 30px; font-weight: 850; color: var(--primary); text-align: center; margin-bottom: 40px;">
+        FAQ Solaire : Vos questions à {commune.nom}
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        {local.faqItems.map((faq) => (
+          <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 17.5px; font-weight: 800; color: var(--primary); margin-bottom: 8px;">
+              {faq.question}
+            </h3>
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+              {faq.answer}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Subsidies details & Local Agency contact -->
+  <section style="padding: 70px 0; background-color: var(--card-bg);">
+    <div class="container" style="max-width: 900px;">
+      <h2 style="font-family: var(--font-heading); font-size: 28px; font-weight: 850; color: var(--primary); text-align: center; margin-bottom: 30px;">
+        Obtenir des Conseils Personnalisés sur les Aides Solaires
+      </h2>
+      
+      <div style="background: var(--primary-light); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm); margin-bottom: 40px;">
+        <h3 style="font-family: var(--font-heading); font-size: 19px; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+          <span>🏛️</span> Accompagnement Public Rénovation Énergétique
+        </h3>
+        <p style="font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 15px;">
+          Pour vous renseigner de façon neutre et gratuite sur les aides financières 2026, vous pouvez vous adresser à <strong>{local.localAgencyName}</strong>, {local.localAgencyDetail}.
+        </p>
+        <p style="font-size: 14px; color: var(--text-muted); margin: 0; font-weight: 500;">
+          💡 Rappel : {local.conseilAides}
+        </p>
+      </div>
+
+      <!-- Dynamic Semantic Interlinking (Proximity matching) -->
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+        <h3 style="font-family: var(--font-heading); font-size: 18px; color: var(--primary); margin-bottom: 12px;">🌍 Autres Villes du Secteur :</h3>
+        <p style="font-size: 14.5px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.5;">
+          {local.smartNearbyCommunesText}
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; font-size: 13.5px;">
+          {nearby.map((n) => (
+            <a 
+              href={`/panneau-solaire-${n.slug}/`} 
+              style="padding: 8px 12px; background: var(--bg); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text); font-weight: bold; text-decoration: none;"
+            >
+              {n.nom} ({n.codePostal}) &rarr;
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

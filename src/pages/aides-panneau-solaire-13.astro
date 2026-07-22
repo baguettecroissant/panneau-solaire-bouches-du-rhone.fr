@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StepsForm from '../components/StepsForm.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Aides Financières Panneau Solaire Bouches-du-Rhône (13) | Subventions 2026`;
+const description = `Estimez vos primes à l'autoconsommation, TVA à taux réduit et tarifs de revente EDF OA garantis pour votre projet de panneaux solaires dans le 13.`;
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={[
+      { label: "Accueil", href: "/" },
+      { label: "Aides Financières Solaire 13" }
+    ]}
+  />
+
+  <Breadcrumb items={[
+    { label: "Accueil", href: "/" },
+    { label: "Aides Financières Solaire Bouches-du-Rhône", href: "/aides-panneau-solaire-13/" }
+  ]} />
+
+  <section class="static-page-section" style="background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content -->
+        <div>
+          <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 900; color: var(--primary); margin-bottom: 25px;">
+            Aides Financières &amp; Subventions Solaire 2026 dans le 13
+          </h1>
+          
+          <p style="font-size: 16px; line-height: 1.7; color: var(--text); margin-bottom: 30px;">
+            L'État et les collectivités territoriales des Bouches-du-Rhône encouragent le développement de la micro-production solaire photovoltaïque. Pour l'année 2026, plusieurs dispositifs de subvention et avantages fiscaux vous permettent de financer sereinement votre projet de transition énergétique.
+          </p>
+
+          <h2 style="font-family: var(--font-heading); font-size: 22px; color: var(--primary); margin-top: 30px; margin-bottom: 15px;">1. La prime à l'autoconsommation photovoltaïque</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            Cette subvention est versée par l'État pour soutenir l'installation de panneaux solaires en autoconsommation avec revente du surplus d'électricité. Son montant est calculé selon la puissance crête installée et est payé en une seule fois (un an après la mise en service) :
+          </p>
+          <ul style="margin-left: 20px; color: var(--text-muted); font-size: 14.5px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 30px;">
+            <li><strong>Installation ≤ 3 kWc :</strong> ~350 € par kWc installé (soit environ 1 050 € d'aide).</li>
+            <li><strong>Installation ≤ 9 kWc :</strong> ~260 € par kWc installé (soit environ 1 560 € d'aide pour 6 kWc et 2 340 € pour 9 kWc).</li>
+            <li><strong>Installation ≤ 36 kWc :</strong> ~200 € par kWc installé.</li>
+          </ul>
+
+          <h2 style="font-family: var(--font-heading); font-size: 22px; color: var(--primary); margin-top: 30px; margin-bottom: 15px;">2. Le contrat de revente de surplus d'électricité (EDF OA)</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            Lorsque vos panneaux produisent de l'électricité en excès par rapport à vos besoins immédiats, le surplus est automatiquement injecté sur le réseau électrique public d'Enedis. EDF Obligation d'Achat (EDF OA) a l'obligation contractuelle d'acheter ces kilowattheures excédentaires à un tarif réglementé garanti pendant 20 ans :
+          </p>
+          <ul style="margin-left: 20px; color: var(--text-muted); font-size: 14.5px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 30px;">
+            <li><strong>Tarif d'achat du surplus en 2026 :</strong> **13 centimes d'euro par kWh**.</li>
+            <li><strong>Exonération fiscale :</strong> Les revenus tirés de la revente du surplus sont totalement exonérés d'impôt sur le revenu pour les installations d'une puissance inférieure ou égale à 3 kWc.</li>
+          </ul>
+
+          <h2 style="font-family: var(--font-heading); font-size: 22px; color: var(--primary); margin-top: 30px; margin-bottom: 15px;">3. Taux de TVA réduit</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            Pour les installations solaires d'une puissance inférieure ou égale à 3 kWc, la TVA est appliquée au taux réduit de **10%** (au lieu de 20%) sur la fourniture du matériel et la main-d'œuvre. Les installations d'une puissance supérieure sont soumises au taux normal de 20%.
+          </p>
+
+          <h2 style="font-family: var(--font-heading); font-size: 22px; color: var(--primary); margin-top: 30px; margin-bottom: 15px;">4. Conditions impératives d'éligibilité aux subventions</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            Pour bénéficier de l'ensemble de ces subventions de l'État dans les Bouches-du-Rhône, deux conditions réglementaires cumulatives doivent être respectées :
+          </p>
+          <ul style="margin-left: 20px; color: var(--text-muted); font-size: 14.5px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 30px;">
+            <li><strong>Recours à un installateur certifié RGE QualiPV :</strong> L'entreprise chargée des travaux doit impérativement disposer du label RGE QualiPV actif lors de la signature du devis et de la pose.</li>
+            <li><strong>Fixation sur le bâti :</strong> Les panneaux solaires doivent être fixés en surimposition ou intégrés à la toiture (ou sur une structure comme un abri de voiture / carport). Les panneaux posés au sol dans le jardin ne donnent pas droit aux primes nationales.</li>
+          </ul>
+        </div>
+
+        <!-- Sidebar form -->
+        <aside class="static-sidebar">
+          <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-lg);">
+            <h3 style="text-align: center; margin-bottom: 15px; font-family: var(--font-heading);">Estimer mes Aides</h3>
+            <StepsForm />
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>

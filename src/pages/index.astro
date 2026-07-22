@@ -1,0 +1,512 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+import communes from '../data/communes.json';
+import { getCollection } from 'astro:content';
+
+const title = `Panneaux Solaires Bouches-du-Rhône (13) — Installateurs RGE & Devis Gratuits`;
+const description = `Installation de panneaux solaires photovoltaïques dans les Bouches-du-Rhône (13). Évaluez votre rentabilité solaire en autoconsommation et comparez 3 devis gratuits.`;
+
+// Top communes for SEO linking (pop > 8000)
+const popularCommunes = communes.filter(c => c.population > 8000).slice(0, 15);
+
+// Fetch guides
+let recentGuides = [];
+try {
+  const guides = await getCollection('guides');
+  recentGuides = guides.slice(0, 3);
+} catch (e) {
+  console.log("No guides collection found yet", e);
+}
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+  />
+
+  <!-- Hero Section with lead form -->
+  <Hero />
+
+  <!-- Intro & Key Values Section -->
+  <section style="padding: 70px 0; background-color: var(--card-bg);">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto 50px;">
+        <h2 style="font-family: var(--font-heading); font-size: 34px; font-weight: 800; color: var(--primary); margin-bottom: 15px;">
+          Pourquoi passer au solaire photovoltaïque dans les Bouches-du-Rhône (13) ?
+        </h2>
+        <p style="font-size: 16.5px; color: var(--text-muted); line-height: 1.6;">
+          Le département 13 bénéficie d'une situation géographique privilégiée avec plus de 2 900 heures de soleil par an. Cet ensoleillement exceptionnel permet de rentabiliser vos panneaux solaires en seulement 6 à 8 ans. Face à l'augmentation du prix de l'électricité (+15% par an en moyenne), produire et autoconsommer sa propre énergie verte est le bouclier fiscal idéal pour votre foyer.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+        <div style="background: var(--bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-md);">
+          <span style="font-size: 36px; display: block; margin-bottom: 15px;">🌬️</span>
+          <h3 style="font-family: var(--font-heading); font-size: 19px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Résistance au Mistral</h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.5;">
+            Fixation aérodynamique conforme aux normes CSTB : rails en aluminium anodisé ancrés mécaniquement dans la charpente de votre bastide provençale pour résister à des vents de plus de 140 km/h.
+          </p>
+        </div>
+
+        <div style="background: var(--bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-md);">
+          <span style="font-size: 36px; display: block; margin-bottom: 15px;">☀️</span>
+          <h3 style="font-family: var(--font-heading); font-size: 19px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Ensoleillement Record</h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.5;">
+            Près de 2 900h de soleil par an en Provence. Chaque kWc de panneaux photovoltaïques produit en moyenne 1 400 kWh d'électricité propre par an, soit 40% de plus que dans la moitié nord de la France.
+          </p>
+        </div>
+
+        <div style="background: var(--bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-md);">
+          <span style="font-size: 36px; display: block; margin-bottom: 15px;">📈</span>
+          <h3 style="font-family: var(--font-heading); font-size: 19px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Valorisation du Surplus</h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.5;">
+            Autoconsommez en priorité l'électricité produite et vendez l'excédent à EDF OA à un tarif garanti de 13 cts/kWh sur 20 ans. Un revenu passif entièrement exonéré d'impôt jusqu'à 3 kWc.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Simulator & ROI Calculator -->
+  <section style="padding: 70px 0; background-color: var(--bg); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto 50px;">
+        <h2 style="font-family: var(--font-heading); font-size: 34px; font-weight: 800; color: var(--primary); margin-bottom: 15px;">
+          Estimateur de Production &amp; Calculateur de Rentabilité (ROI)
+        </h2>
+        <p style="font-size: 16.5px; color: var(--text-muted); line-height: 1.6;">
+          Calculez le potentiel photovoltaïque de votre toiture dans les Bouches-du-Rhône et découvrez le temps de retour sur investissement estimé pour votre foyer.
+        </p>
+      </div>
+
+      <div class="two-column-layout">
+        <!-- Production Simulator -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-md);">
+          <h3 style="font-family: var(--font-heading); font-size: 21px; font-weight: 800; color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+            <span>🧮</span> 1. Simulateur de Rentabilité
+          </h3>
+          
+          <div class="form-group">
+            <label for="sim_surface">Surface disponible sur le toit (en m²)</label>
+            <input type="number" id="sim_surface" value="30" min="10" max="200" class="form-control" />
+            <span style="font-size: 11px; color: var(--text-muted);">Indication : 1 kWc nécessite environ 6 m² de surface.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="sim_orientation">Orientation du toit</label>
+            <select id="sim_orientation" class="form-control">
+              <option value="1.0">Plein Sud (Optimal)</option>
+              <option value="0.92">Sud-Ouest / Sud-Est</option>
+              <option value="0.80">Est / Ouest</option>
+              <option value="0.50">Nord (Déconseillé)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="sim_bill">Facture d'électricité moyenne actuelle</label>
+            <select id="sim_bill" class="form-control">
+              <option value="80">Environ 80€ / mois</option>
+              <option value="150" selected>Environ 150€ / mois</option>
+              <option value="250">Environ 250€ / mois</option>
+              <option value="350">Plus de 300€ / mois</option>
+            </select>
+          </div>
+
+          <div id="sim_result" style="background: var(--primary-light); border: 1.5px solid var(--secondary); border-radius: var(--radius-sm); padding: 18px; margin-top: 20px; text-align: center;">
+            <div style="font-size: 13px; color: var(--primary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Production Annuelle Estimée</div>
+            <div id="sim_total_production" style="font-size: 28px; font-weight: 900; color: var(--secondary); margin: 5px 0;">7 000 kWh</div>
+            <p id="sim_roi_text" style="font-size: 13.5px; color: var(--text); margin: 0; font-weight: 500;">
+              Temps d'amortissement estimé : <strong style="color: var(--secondary);" id="sim_roi_val">6.8 ans</strong>
+            </p>
+            <p id="sim_savings_text" style="font-size: 12.5px; color: var(--text-muted); margin-top: 5px;">
+              Économies + Revente de surplus : <strong id="sim_savings_val">920 € / an</strong>
+            </p>
+          </div>
+        </div>
+
+        <!-- Technical Selector -->
+        <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-md); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 21px; font-weight: 800; color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+              <span>🧭</span> 2. Sélecteur de Configuration
+            </h3>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">
+              Déterminez le type d'installation recommandé selon les caractéristiques de votre toiture et vos objectifs d'autonomie.
+            </p>
+
+            <div class="form-group">
+              <label for="filter_shade">Exposition à l'ombrage (arbres, cheminée, etc.)</label>
+              <select id="filter_shade" class="form-control">
+                <option value="none">Aucun ombrage — ensoleillement continu</option>
+                <option value="partial">Ombrage partiel le matin ou l'après-midi</option>
+                <option value="high">Ombrage important ou toiture morcelée</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="filter_autonomy">Objectif principal du projet</label>
+              <select id="filter_autonomy" class="form-control">
+                <option value="savings">Économies sur facture &amp; revente simple</option>
+                <option value="independence">Autonomie maximale &amp; secours en cas de coupure</option>
+              </select>
+            </div>
+
+            <div id="filter_result" style="background: var(--primary-light); border: 1.5px solid var(--primary); border-radius: var(--radius-sm); padding: 18px; margin-top: 20px;">
+              <div style="font-size: 12.5px; color: var(--primary); text-transform: uppercase; font-weight: 700; text-align: center;">Recommandation Technique</div>
+              <div id="filter_recom" style="font-size: 18px; font-weight: 900; color: var(--primary); text-align: center; margin: 5px 0;">Micro-onduleurs Enphase IQ8</div>
+              <p id="filter_reason" style="font-size: 13px; color: var(--text); margin: 0; line-height: 1.4; text-align: center;">Indispensable pour optimiser la production panneau par panneau en cas d'ombrage partiel et maximiser la durée de vie.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Autoconsommation vs Revente -->
+  <section style="padding: 70px 0; background-color: var(--card-bg);">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto 50px;">
+        <h2 style="font-family: var(--font-heading); font-size: 30px; font-weight: 800; color: var(--primary); margin-bottom: 15px;">
+          Autoconsommation avec Revente vs Revente Totale
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted);">
+          Comparez les deux modèles d'affaires solaires pour faire le meilleur choix financier dans les Bouches-du-Rhône.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm); border-top: 5px solid var(--secondary);">
+          <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 12px;">Autoconsommation + Vente du Surplus (Recommandé)</h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
+            Vous consommez l'électricité produite en direct pour faire fonctionner vos appareils (pompe de piscine, clim en journée). L'excédent non utilisé est injecté sur le réseau public d'Enedis et revendu.
+          </p>
+          <ul style="margin-left: 20px; font-size: 13.5px; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Taux d'autoconsommation</strong> : jusqu'à 80% d'économies directes.</li>
+            <li><strong>Prix de revente</strong> : 13 cts/kWh garanti sur 20 ans par EDF OA.</li>
+            <li><strong>Subventions</strong> : Éligible à la prime à l'autoconsommation (ex : ~1 050€ pour 3 kWc).</li>
+            <li><strong>TVA</strong> : 10% sur les installations ≤ 3 kWc.</li>
+          </ul>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm); border-top: 5px solid var(--primary);">
+          <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 12px;">Revente Totale</h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 15px;">
+            100% de l'électricité produite par vos panneaux solaires est injectée sur le réseau. Vous n'alimentez aucun appareil de la maison en direct et continuez d'acheter toute votre électricité à votre fournisseur d'énergie.
+          </p>
+          <ul style="margin-left: 20px; font-size: 13.5px; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px;">
+            <li><strong>Taux d'autoconsommation</strong> : 0%.</li>
+            <li><strong>Prix de revente</strong> : Variable selon le tarif trimestriel fixé par l'État.</li>
+            <li><strong>Subventions</strong> : Non éligible à la prime à l'autoconsommation résidentielle.</li>
+            <li><strong>Rentabilité</strong> : Plus complexe à rentabiliser pour les petits projets résidentiels en raison des coûts de raccordement spécifiques à la revente totale.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Table Section -->
+  <section style="padding: 70px 0; background-color: var(--bg); border-top: 1px solid var(--border-color);">
+    <div class="container" style="max-width: 900px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-family: var(--font-heading); font-size: 30px; font-weight: 800; color: var(--primary); margin-bottom: 15px;">
+          Grille Tarifaire Indicative Panneaux Solaires 13 (2026)
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted); max-width: 700px; margin: 0 auto;">
+          Prix moyens constatés pour l'achat, la pose et le raccordement par des installateurs RGE QualiPV dans les Bouches-du-Rhône.
+        </p>
+      </div>
+
+      <div class="table-scroll-wrapper" style="border: 1px solid var(--border-color); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow: hidden;">
+        <table class="data-table" style="width: 100%; margin: 0;">
+          <thead>
+            <tr>
+              <th style="padding: 15px 20px;">Type d'installation</th>
+              <th style="padding: 15px 20px;">Description &amp; Rendement</th>
+              <th style="padding: 15px 20px; text-align: right;">Prix moyen TTC</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Kit 3 kWc (8 panneaux)</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Autoconsommation maison standard, production ~4 200 kWh/an</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">7 000 – 9 500 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Kit 6 kWc (16 panneaux)</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Grande maison ou villa avec clim/piscine, production ~8 400 kWh/an</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">12 000 – 16 000 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Kit 9 kWc (24 panneaux)</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Forte consommation, chauffage/climatisation, production ~12 600 kWh/an</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">16 000 – 22 000 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Kit 12+ kWc</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Grande villa ou usage triphasé avec recharge véhicule électrique</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">20 000 – 30 000 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Batterie lithium LFP (5-10 kWh)</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Stockage d'électricité physique dans le garage, autonomie de nuit</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">4 000 – 8 000 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Micro-onduleurs (Enphase)</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Optimisation individuelle des panneaux, meilleure tolérance ombrage</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">+800 – 2 000 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Carport solaire (Abri voiture)</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Structure abri pour un ou deux véhicules, panneaux photovoltaïques intégrés</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">8 000 – 15 000 €</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px 20px; font-weight: 600;">Entretien &amp; contrôle technique</td>
+              <td style="padding: 15px 20px; color: var(--text-muted);">Nettoyage annuel des panneaux, vérification électrique et onduleur</td>
+              <td style="padding: 15px 20px; text-align: right; font-weight: 700; color: var(--primary); font-family: var(--font-mono);">100 – 200 € / an</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 12.5px; color: var(--text-muted); text-align: center; margin-top: 15px;">
+        * Tarifs moyens constatés en 2026. L'obtention de la prime de l'État et du taux de TVA à 10% dépend de la puissance installée et de la labellisation RGE de l'installateur.
+      </p>
+    </div>
+  </section>
+
+  <!-- Guides & Articles Section -->
+  {recentGuides.length > 0 && (
+    <section style="padding: 70px 0; background-color: var(--card-bg);">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 50px;">
+          <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 800; color: var(--primary); margin-bottom: 15px;">
+            Guides Pratiques &amp; Conseils Solaires
+          </h2>
+          <p style="font-size: 16px; color: var(--text-muted);">
+            Retrouvez les dossiers d'experts de nos ingénieurs solaires pour réussir votre installation.
+          </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+          {recentGuides.map((guide) => (
+            <div style="background: var(--bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column;">
+              {guide.data.image && (
+                <div style="height: 180px; overflow: hidden; position: relative;">
+                  <img src={guide.data.image} alt={guide.data.title} style="width: 100%; height: 100%; object-fit: cover;" />
+                </div>
+              )}
+              <div style="padding: 25px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <h3 style="font-family: var(--font-heading); font-size: 19px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">
+                    {guide.data.title}
+                  </h3>
+                  <p style="font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">
+                    {guide.data.description}
+                  </p>
+                </div>
+                <a href={`/guides/${guide.id}/`} style="font-weight: 700; color: var(--secondary); font-size: 14.5px; display: inline-flex; align-items: center; gap: 4px;">
+                  Lire le guide &rarr;
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- FAQ Section -->
+  <section style="padding: 70px 0; background-color: var(--bg); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container" style="max-width: 850px;">
+      <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 800; color: var(--primary); text-align: center; margin-bottom: 45px;">
+        Questions Fréquentes sur le Solaire dans le 13
+      </h2>
+
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+          <h3 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">
+            Quel est l'impact du Mistral sur les panneaux solaires ?
+          </h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6;">
+            Le Mistral souffle régulièrement à plus de 100 km/h dans les Bouches-du-Rhône. Cependant, les systèmes de fixation par surimposition actuels sont ancrés directement dans la charpente en bois de la toiture à travers les tuiles à l'aide de crochets en acier inoxydable. Testées en soufflerie, ces fixations supportent des pressions équivalentes à des vents de plus de 150 km/h, rendant le risque d'arrachement nul si la pose respecte les règles de l'art.
+          </p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+          <h3 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">
+            Qu'est-ce que la prime à l'autoconsommation photovoltaïque ?
+          </h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6;">
+            C'est une subvention directe de l'État versée pour encourager l'installation de panneaux solaires résidentiels en autoconsommation avec vente du surplus. Son montant dépend de la puissance installée (ex : environ 1 050 € pour une installation de 3 kWc en 2026). Cette prime est versée en une fois, un an après la mise en service du système par Enedis, directement sur votre compte bancaire.
+          </p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+          <h3 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">
+            Les panneaux solaires sont-ils performants en cas de forte chaleur provençale ?
+          </h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6;">
+            Lorsque la température des cellules photovoltaïques dépasse 25°C, leur rendement diminue légèrement (de 0,3% par degré supplémentaire). À Marseille ou à Aix en été, la température sur le toit peut dépasser 60°C. Pour limiter cette perte d'efficacité, la technique de pose en surimposition est idéale : la lame d'air de 10 cm préservée sous les panneaux crée un effet de cheminée thermique naturel qui ventile les modules et régule leur température.
+          </p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+          <h3 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">
+            Comment fonctionne le contrat de revente du surplus EDF OA ?
+          </h3>
+          <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6;">
+            Une fois le Consuel obtenu, vous signez un contrat de revente de surplus avec EDF Obligation d'Achat (EDF OA) d'une durée de 20 ans. Le tarif d'achat de chaque kWh injecté sur le réseau (non consommé par vos appareils) est fixé lors de la mise en service et reste garanti sur 20 ans (13 cts/kWh en 2026). Chaque année, vous émettez une facture sur votre espace client EDF OA basée sur le relevé du compteur Linky et recevez un virement annuel.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Communes Section -->
+  <section style="padding: 70px 0; background-color: var(--card-bg);">
+    <div class="container">
+      <h2 style="font-family: var(--font-heading); font-size: 26px; font-weight: 800; color: var(--primary); text-align: center; margin-bottom: 35px;">
+        📍 Nos installateurs solaires par commune dans les Bouches-du-Rhône
+      </h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; font-size: 14px;">
+        {popularCommunes.map((c) => (
+          <a 
+            href={`/panneau-solaire-${c.slug}/`} 
+            style="padding: 10px 14px; background: var(--bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text); font-weight: bold; text-decoration: none; text-align: center; transition: var(--transition);"
+            onmouseover="this.style.borderColor='var(--secondary)'; this.style.background='var(--primary-light)';"
+            onmouseout="this.style.borderColor='var(--border-color)'; this.style.background='var(--bg)';"
+          >
+            {c.nom} ({c.codePostal}) &rarr;
+          </a>
+        ))}
+      </div>
+      <div style="text-align: center; margin-top: 30px;">
+        <a href="/communes/" class="contact-btn" style="text-decoration: none;">Voir toutes les communes desservies &rarr;</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script is:inline>
+  // Interactive Simulator Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const surfaceInput = document.getElementById('sim_surface');
+    const orientationSelect = document.getElementById('sim_orientation');
+    const billSelect = document.getElementById('sim_bill');
+    
+    const prodEl = document.getElementById('sim_total_production');
+    const roiEl = document.getElementById('sim_roi_val');
+    const savingsEl = document.getElementById('sim_savings_val');
+    
+    if (!surfaceInput || !orientationSelect || !billSelect || !prodEl || !roiEl || !savingsEl) return;
+
+    const updateSimulator = () => {
+      const surface = parseFloat(surfaceInput.value) || 20;
+      const orientation = parseFloat(orientationSelect.value) || 1.0;
+      const billValue = parseFloat(billSelect.value) || 150;
+      
+      // 1 kWc = 6 m2 of panels.
+      const kwc = surface / 6;
+      
+      // Average productivity in BDR: 1400 kWh per kWc per year
+      const baseProductivity = 1400;
+      
+      // Estimated annual production
+      const production = kwc * baseProductivity * orientation;
+      
+      // Estimated annual bill in €
+      const annualBill = billValue * 12;
+      
+      // Estimated savings (autoconsommation up to 60-70% + revente surplus)
+      let savings = production * 0.25 * 0.65 + (production * 0.35 * 0.13); // 25 cts saved per autocon kWh, 13 cts earned per surplus kWh
+      savings = Math.min(savings, annualBill * 0.85); // Cap savings at 85% of total bill
+      
+      // Estimated cost of installation
+      let cost = 0;
+      if (kwc <= 3.5) {
+        cost = 8000;
+      } else if (kwc <= 7) {
+        cost = 13500;
+      } else {
+        cost = 18500;
+      }
+      
+      // State Subsidies
+      let subsidies = 0;
+      if (kwc <= 3) {
+        subsidies = kwc * 350;
+      } else if (kwc <= 9) {
+        subsidies = kwc * 260;
+      } else {
+        subsidies = kwc * 200;
+      }
+      
+      const netCost = cost - subsidies;
+      
+      // ROI calculation
+      const roiYears = netCost / savings;
+      
+      prodEl.textContent = `${Math.round(production).toLocaleString('fr-FR')} kWh / an`;
+      savingsEl.textContent = `${Math.round(savings).toLocaleString('fr-FR')} € / an`;
+      roiEl.textContent = `${roiYears.toFixed(1)} ans`;
+    };
+    
+    surfaceInput.addEventListener('input', updateSimulator);
+    orientationSelect.addEventListener('change', updateSimulator);
+    billSelect.addEventListener('change', updateSimulator);
+    
+    updateSimulator();
+  });
+
+  // Recommender Selector Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const shadeSelect = document.getElementById('filter_shade');
+    const autonomySelect = document.getElementById('filter_autonomy');
+    
+    const recomEl = document.getElementById('filter_recom');
+    const reasonEl = document.getElementById('filter_reason');
+    
+    if (!shadeSelect || !autonomySelect || !recomEl || !reasonEl) return;
+    
+    const updateRecommender = () => {
+      const shade = shadeSelect.value;
+      const autonomy = autonomySelect.value;
+      
+      let recommendation = "";
+      let reason = "";
+      
+      if (shade === 'high' || shade === 'partial') {
+        if (autonomy === 'independence') {
+          recommendation = "Enphase IQ8 + Batterie Physique";
+          reason = "Les micro-onduleurs gèrent les ombrages panneau par panneau pour éviter la perte de puissance. La batterie physique stocke l'électricité pour assurer votre autonomie de nuit et servir de secours.";
+        } else {
+          recommendation = "Micro-onduleurs Enphase IQ8";
+          reason = "Indispensable en cas d'ombrage partiel ou de cheminée provençale projetant une ombre sur le toit. Chaque panneau fonctionne indépendamment pour maximiser la production globale.";
+        }
+      } else {
+        if (autonomy === 'independence') {
+          recommendation = "Onduleur Central + Batterie Lithium";
+          reason = "Sans ombrage, un onduleur hybride centralisé couplé à une batterie physique LFP de 5 à 10 kWh est la configuration la plus rentable pour stocker l'énergie solaire provençale.";
+        } else {
+          recommendation = "Kit Solaire Surimposé Full Black";
+          reason = "La solution classique la plus performante et la plus économique : panneaux monocristallins bifaciaux fixés sur rails, parfaits pour valoriser le soleil record du 13 en autoconsommation.";
+        }
+      }
+      
+      recomEl.textContent = recommendation;
+      reasonEl.textContent = reason;
+    };
+    
+    shadeSelect.addEventListener('change', updateRecommender);
+    autonomySelect.addEventListener('change', updateRecommender);
+    
+    updateRecommender();
+  });
+</script>

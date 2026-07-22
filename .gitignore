@@ -1,0 +1,14 @@
+# Tooling
+.astro/
+.wrangler/
+npm-cache/
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db

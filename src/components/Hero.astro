@@ -1,0 +1,131 @@
+---
+import StepsForm from './StepsForm.astro';
+import config from '../data/config.json';
+---
+
+<section class="hero">
+  <div class="container hero-inner">
+    <!-- Left text content -->
+    <div class="hero-content">
+      <div class="hero-badge" style="background-color: var(--secondary);">
+        ☀️ 2 900h de soleil/an — rentabilité record
+      </div>
+      
+      <h1 style="min-height: 110px; font-family: var(--font-heading); font-size: 40px; color: white;">
+        Panneaux Solaires dans les Bouches-du-Rhône (13) — <span id="typewriter-text" style="color: var(--accent); border-right: 2px solid var(--accent); padding-right: 4px;"></span>
+      </h1>
+      
+      <p style="margin-top: 15px; margin-bottom: 20px; color: #fef3c7;">
+        Rentabilisez votre toiture provençale grâce à un ensoleillement record. Produisez votre propre énergie gratuite pendant 30 ans avec des installateurs certifiés RGE QualiPV du 13. Recevez 3 études de rentabilité gratuites.
+      </p>
+
+      <!-- Animated counter of kWh produced per year -->
+      <div style="background: rgba(180, 83, 9, 0.2); border: 1.5px solid var(--border-color); border-radius: var(--radius-md); padding: 15px 20px; display: inline-flex; align-items: center; gap: 15px; margin-bottom: 25px;">
+        <span style="font-family: var(--font-mono); font-size: 38px; font-weight: 900; color: var(--accent); line-height: 1; display: inline-block; min-width: 140px; text-align: right;" id="kwh-production-val">
+          0 kWh
+        </span>
+        <div style="font-size: 13.5px; line-height: 1.3;">
+          <strong style="color: white; display: block;">Production annuelle moyenne (3 kWc)</strong>
+          <span style="color: #fef3c7;">Électricité verte produite localement dans le 13</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 10px; color: white;">
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 14.5px;">
+          <span style="color: var(--secondary); font-weight: bold; font-size: 18px;">✓</span> Artisans RGE QualiPV
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 14.5px;">
+          <span style="color: var(--secondary); font-weight: bold; font-size: 18px;">✓</span> Économies jusqu'à 80%
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 14.5px;">
+          <span style="color: var(--secondary); font-weight: bold; font-size: 18px;">✓</span> Revente surplus EDF OA
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 14.5px;">
+          <span style="color: var(--secondary); font-weight: bold; font-size: 18px;">✓</span> Prime État 2026 garantie
+        </div>
+      </div>
+      
+      <!-- Visual hero image slot -->
+      <div style="margin-top: 35px;" class="hero-image-container">
+        <img 
+          src="/images/hero-panneau-solaire-bouches-du-rhone.png" 
+          alt="Provençal house rooftop with sleek black monocrystalline solar panels, intense blue Mediterranean sky, bright sun, terracotta tiles visible, green garden below, energy meter showing savings, no text, clean energy lifestyle photography" 
+          class="hero-img"
+          loading="eager"
+        />
+      </div>
+    </div>
+
+    <!-- Right steps form -->
+    <div class="hero-right">
+      <StepsForm />
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  // Typewriter effect
+  document.addEventListener('DOMContentLoaded', () => {
+    const txtEl = document.getElementById('typewriter-text');
+    if (!txtEl) return;
+
+    const words = [
+      "Économisez jusqu'à 80%",
+      "Installateurs RGE QualiPV",
+      "Autoconsommation & Revente",
+      "ROI rapide en 6-8 ans"
+    ];
+    
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    
+    const type = () => {
+      const currentWord = words[wordIndex];
+      if (isDeleting) {
+        txtEl.textContent = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        txtEl.textContent = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+      }
+      
+      let speed = isDeleting ? 40 : 80;
+      
+      if (!isDeleting && charIndex === currentWord.length) {
+        speed = 2000;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        speed = 500;
+      }
+      
+      setTimeout(type, speed);
+    };
+    
+    type();
+  });
+
+  // Animated counter for solar production (up to 4 200 kWh/an)
+  document.addEventListener('DOMContentLoaded', () => {
+    const counterEl = document.getElementById('kwh-production-val');
+    if (!counterEl) return;
+    
+    let currentVal = 0;
+    const targetVal = 4200; // Average kWh/year for 3kWc in BDR
+    const duration = 2000; // 2 seconds
+    const intervalTime = 30; // 30ms
+    const totalSteps = duration / intervalTime;
+    const stepSize = targetVal / totalSteps;
+    
+    const timer = setInterval(() => {
+      currentVal += stepSize;
+      if (currentVal >= targetVal) {
+        currentVal = targetVal;
+        clearInterval(timer);
+      }
+      counterEl.textContent = `${Math.round(currentVal).toLocaleString('fr-FR')} kWh`;
+    }, intervalTime);
+  });
+</script>

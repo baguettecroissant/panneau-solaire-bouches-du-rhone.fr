@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Politique de Confidentialité | ${config.brandName}`;
+const description = `Consultez notre politique de confidentialité (RGPD) concernant le traitement et la sécurisation des données collectées sur panneau-solaire-bouches-du-rhone.fr.`;
+---
+
+<Layout title={title} description={description} robots="noindex, follow">
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={[
+      { label: "Accueil", href: "/" },
+      { label: "Politique de Confidentialité" }
+    ]}
+  />
+
+  <Breadcrumb items={[
+    { label: "Accueil", href: "/" },
+    { label: "Politique de Confidentialité", href: "/politique-confidentialite/" }
+  ]} />
+
+  <section class="static-page-section" style="background-color: var(--bg);">
+    <div class="container" style="max-width: 800px;">
+      <div class="static-main-content" style="display: flex; flex-direction: column; gap: 20px;">
+        <h1>Politique de Confidentialité (RGPD)</h1>
+        
+        <p>
+          La présente Politique de confidentialité définit la manière dont nous collectons, utilisons, stockons et protégeons les informations personnelles des utilisateurs du présent site internet <code>https://{config.domain}</code>.
+        </p>
+
+        <h2>1. Données Collectées</h2>
+        <p>
+          Lorsque vous effectuez une demande d'étude de rentabilité solaire via notre formulaire multi-étapes, nous collectons les données à caractère personnel suivantes :
+        </p>
+        <ul style="margin-left: 20px; display: flex; flex-direction: column; gap: 8px;">
+          <li>Civilité, Prénom et Nom</li>
+          <li>Adresse de courrier électronique (email)</li>
+          <li>Numéro de téléphone portable (pour validation de l'étude)</li>
+          <li>Adresse postale complète du chantier (pour étude géographique des ombrages)</li>
+          <li>Caractéristiques techniques du projet (type de toiture, puissance estimée, montant de la facture d'électricité)</li>
+          <li>Adresse IP de connexion et User-Agent (pour la sécurité et la prévention des fraudes)</li>
+        </ul>
+
+        <h2>2. Finalités du Traitement</h2>
+        <p>
+          Les données collectées sont utilisées pour les finalités suivantes :
+        </p>
+        <ul style="margin-left: 20px; display: flex; flex-direction: column; gap: 8px;">
+          <li>L'analyse technique préliminaire de l'éligibilité solaire de votre toiture.</li>
+          <li>La transmission sécurisée de votre dossier à notre partenaire technique <strong>ViteUnDevis</strong> afin de vous mettre en relation avec 3 installateurs certifiés RGE QualiPV locaux.</li>
+          <li>La lutte contre les faux leads, le spam et les usurpations d'identité (validation téléphonique).</li>
+        </ul>
+
+        <h2>3. Destinataires des Données</h2>
+        <p>
+          Vos données personnelles sont confidentielles. Elles ne sont partagées qu'avec :
+          <br />
+          - Notre plateforme de base de données sécurisée (Supabase) pour la conservation de votre dossier technique.
+          <br />
+          - L'API technique de notre partenaire de mise en relation <strong>ViteUnDevis</strong>. Vos coordonnées de contact ne sont communiquées qu'aux installateurs solaires du 13 sélectionnés pour réaliser votre devis.
+        </p>
+
+        <h2>4. Durée de Conservation</h2>
+        <p>
+          Les données personnelles collectées sont conservées en base de données sécurisée pour une durée n'excédant pas 36 mois à compter de la date de soumission du formulaire, avant d'être anonymisées ou détruites, conformément aux recommandations de la CNIL.
+        </p>
+
+        <h2>5. Vos Droits (RGPD)</h2>
+        <p>
+          Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité de vos données personnelles, ainsi que d'un droit de limitation ou d'opposition au traitement de vos données.
+        </p>
+        <p>
+          Pour exercer ces droits, vous pouvez contacter notre délégué à la protection des données par courrier électronique à l'adresse de contact de l'éditeur ou en envoyant une demande écrite accompagnée d'un justificatif d'identité à l'adresse de notre organisation baguettecroissant.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

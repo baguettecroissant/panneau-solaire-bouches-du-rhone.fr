@@ -1,0 +1,206 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import StepsForm from '../components/StepsForm.astro';
+import CityMap from '../components/CityMap.astro';
+import communes from '../data/communes.json';
+import { generateCommuneContent, getDynamicPrices } from '../lib/contentEngine';
+import { getSmartNearbyCommunes } from '../lib/geoLinks';
+
+export async function getStaticPaths() {
+  return communes.map((c) => ({
+    params: { commune: c.slug },
+    props: { commune: c },
+  }));
+}
+
+const { commune } = Astro.props;
+const pageType = 'installateur';
+const local = generateCommuneContent(commune, pageType);
+const prices = getDynamicPrices(commune);
+const nearby = getSmartNearbyCommunes(commune.slug, communes, 5, 2);
+
+const title = `Installateur Solaire RGE à ${commune.nom} (${commune.codePostal}) — QualiPV`;
+const description = `${local.introParagraph} Comparez gratuitement 3 devis de professionnels certifiés RGE QualiPV à ${commune.nom}. Tarifs et aides 2026.`;
+
+const breadcrumbItems = [
+  { label: "Accueil", href: "/" },
+  { label: "Villes Bouches-du-Rhône", href: "/communes/" },
+  { label: `Installateur Solaire ${commune.nom}` }
+];
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    faqItems={local.faqItems}
+    breadcrumbItems={[
+      { label: "Accueil", href: "/" },
+      { label: "Villes Bouches-du-Rhône", href: "/communes/" },
+      { label: `Installateur Solaire ${commune.nom}` }
+    ]}
+    communeName={commune.nom}
+  />
+
+  <Breadcrumb items={breadcrumbItems} />
+
+  <!-- Localized Hero Section -->
+  <section style="background: linear-gradient(135deg, rgba(180,83,9,0.06) 0%, rgba(5,150,105,0.03) 100%); padding: 50px 0; border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="two-column-layout">
+        <!-- Hero Text -->
+        <div style="display: flex; flex-direction: column; justify-content: center;">
+          <div style="background: rgba(5, 150, 105, 0.08); color: var(--secondary); border: 1px solid rgba(5, 150, 105, 0.15); display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 30px; font-size: 12.5px; font-weight: 700; width: max-content; margin-bottom: 20px;">
+            <span>🛡️</span> Artisan local certifié RGE QualiPV — {commune.nom}
+          </div>
+          <h1 style="font-family: var(--font-heading); font-size: 38px; font-weight: 900; color: var(--primary); line-height: 1.25; margin-bottom: 20px;">
+            Trouver un Installateur Solaire RGE à <span style="color: var(--secondary);">{commune.nom}</span>
+          </h1>
+          <p style="font-size: 16.5px; line-height: 1.6; color: var(--text); margin-bottom: 25px;">
+            {local.introParagraph}
+          </p>
+          
+          <div style="background: white; border: 1.5px solid var(--border-color); border-left: 4px solid var(--secondary); padding: 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); margin-bottom: 25px;">
+            <div style="font-weight: 800; color: var(--primary); margin-bottom: 5px; font-size: 14.5px;">💡 Note administrative de l'expert :</div>
+            <p style="font-size: 13.5px; color: var(--text-muted); margin: 0; line-height: 1.5;">
+              Pour bénéficier de la prime de l'État versée en 2026 et pouvoir revendre le surplus d'électricité à EDF OA, votre installation doit obligatoirement être réalisée par un poseur disposant de la mention RGE QualiPV.
+            </p>
+          </div>
+        </div>
+
+        <!-- Hero Form -->
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px 22px; box-shadow: var(--shadow-lg);">
+          <h2 style="font-family: var(--font-heading); font-size: 22px; font-weight: 850; color: var(--primary); text-align: center; margin-bottom: 20px;">
+            Trouver mon installateur &amp; Comparer 3 devis
+          </h2>
+          <StepsForm initialZip={commune.codePostal} initialCommune={commune.nom} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Analysis Section -->
+  <section style="padding: 70px 0; background-color: var(--bg);">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto 50px;">
+        <h2 style="font-family: var(--font-heading); font-size: 32px; font-weight: 850; color: var(--primary); margin-bottom: 15px;">
+          Pourquoi faire confiance à un installateur QualiPV à {commune.nom} ?
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted);">
+          Garanties techniques, démarches administratives et résistance mécanique de votre système.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+          <div style="font-size: 28px; margin-bottom: 12px;">🛡️</div>
+          <h3 style="font-family: var(--font-heading); font-size: 18.5px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Assurance décennale obligatoire</h3>
+          <p style="font-size: 14.0px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            Tous nos installateurs partenaires possèdent une garantie décennale en cours de validité couvrant explicitement la pose photovoltaïque et de couverture. Indispensable pour sécuriser votre bâtisse provençale sur 10 ans.
+          </p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+          <div style="font-size: 28px; margin-bottom: 12px;">📝</div>
+          <h3 style="font-family: var(--font-heading); font-size: 18.5px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Gestion des démarches administratives</h3>
+          <p style="font-size: 14.0px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            Le poseur RGE s'occupe de A à Z : déclaration préalable en mairie de {commune.nom}, validation par l'Architecte des Bâtiments de France (ABF) si requis, obtention de la conformité Consuel et raccordement Enedis.
+          </p>
+        </div>
+
+        <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+          <div style="font-size: 28px; margin-bottom: 12px;">💪</div>
+          <h3 style="font-family: var(--font-heading); font-size: 18.5px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Mise aux normes anti-Mistral</h3>
+          <p style="font-size: 14.0px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+            Le Mistral soufflant fréquemment dans le 13, les poseurs installent un système de surimposition certifié avec fixation par double vis de chevrons dans la structure bois pour garantir une tenue à des vents exceptionnels.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Profil Énergétique Section -->
+  <section style="padding: 70px 0; background-color: var(--card-bg); border-top: 1px solid var(--border-color);">
+    <div class="container" style="max-width: 900px;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <h2 style="font-family: var(--font-heading); font-size: 30px; font-weight: 850; color: var(--primary); margin-bottom: 15px;">
+          Activité Solaire &amp; Ensoleillement à {commune.nom}
+        </h2>
+        <p style="font-size: 16px; color: var(--text-muted);">
+          Gisement d'énergie et installateurs locaux actifs sur votre commune du 13.
+        </p>
+      </div>
+
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 30px; box-shadow: var(--shadow-sm); margin-bottom: 25px;">
+        <div style="display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px;">
+          <span style="font-size: 32px;">📍</span>
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Données marché photovoltaïque</h3>
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+              {local.marketDataText} Nous comptons également {prices.kit3kwc.prodAn} kWh produits par an en moyenne avec un simple kit 3 kWc.
+            </p>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 15px;">
+          <span style="font-size: 32px;">📊</span>
+          <div>
+            <h3 style="font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--primary); margin-bottom: 10px;">Règles d'urbanisme de la localité</h3>
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+              {local.abfRegulations}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Maps Embed -->
+      <CityMap cityName={commune.nom} zip={commune.codePostal} />
+    </div>
+  </section>
+
+  <!-- Spinned Local FAQ Section -->
+  <section style="padding: 70px 0; background-color: var(--bg); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container" style="max-width: 800px;">
+      <h2 style="font-family: var(--font-heading); font-size: 30px; font-weight: 850; color: var(--primary); text-align: center; margin-bottom: 40px;">
+        FAQ Solaire : Les conseils de nos installateurs RGE à {commune.nom}
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        {local.faqItems.map((faq) => (
+          <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 17.5px; font-weight: 800; color: var(--primary); margin-bottom: 8px;">
+              {faq.question}
+            </h3>
+            <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+              {faq.answer}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Dynamic Semantic Interlinking (Proximity matching) -->
+  <section style="padding: 70px 0; background-color: var(--card-bg);">
+    <div class="container" style="max-width: 900px;">
+      <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-sm);">
+        <h3 style="font-family: var(--font-heading); font-size: 18px; color: var(--primary); margin-bottom: 12px;">🌍 Installateurs QualiPV à proximité de {commune.nom} :</h3>
+        <p style="font-size: 14.5px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.5;">
+          {local.smartNearbyCommunesText}
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; font-size: 13.5px;">
+          {nearby.map((n) => (
+            <a 
+              href={`/installateur-solaire-${n.slug}/`} 
+              style="padding: 8px 12px; background: var(--bg); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text); font-weight: bold; text-decoration: none;"
+            >
+              RGE {n.nom} &rarr;
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

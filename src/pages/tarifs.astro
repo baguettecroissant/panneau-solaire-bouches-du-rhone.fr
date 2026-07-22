@@ -1,0 +1,138 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StepsForm from '../components/StepsForm.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import SchemaMarkup from '../components/SchemaMarkup.astro';
+import config from '../data/config.json';
+
+const title = `Tarifs Panneaux Solaires Bouches-du-Rhône (13) | Grille de Prix 2026`;
+const description = `Consultez les prix moyens au m² et par kWc pour l'installation de panneaux solaires photovoltaïques, batteries et carports dans les Bouches-du-Rhône.`;
+---
+
+<Layout title={title} description={description}>
+  <SchemaMarkup
+    slot="head"
+    pageUrl={Astro.url.href}
+    pageTitle={title}
+    pageDescription={description}
+    breadcrumbItems={[
+      { label: "Accueil", href: "/" },
+      { label: "Tarifs Solaire 2026" }
+    ]}
+  />
+
+  <Breadcrumb items={[
+    { label: "Accueil", href: "/" },
+    { label: "Tarifs Panneaux Solaires 2026", href: "/tarifs/" }
+  ]} />
+
+  <section class="static-page-section" style="background-color: var(--bg);">
+    <div class="container">
+      <div class="two-column-layout">
+        
+        <!-- Main Content -->
+        <div>
+          <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 900; color: var(--primary); margin-bottom: 25px;">
+            Quel est le prix d'une installation solaire dans les Bouches-du-Rhône ?
+          </h1>
+          
+          <p style="font-size: 16px; line-height: 1.7; color: var(--text); margin-bottom: 30px;">
+            Investir dans des panneaux solaires photovoltaïques en Provence est particulièrement rentable grâce à l'ensoleillement de 2 900h/an. Le prix d'un projet dépend essentiellement de la puissance requise, de l'accessibilité du toit et du type de matériel (micro-onduleurs ou onduleur central, batterie de stockage, etc.).
+          </p>
+
+          <h2 style="font-family: var(--font-heading); font-size: 22px; color: var(--primary); margin-top: 30px; margin-bottom: 15px;">Grille de Prix Indicative 2026 (Fourniture &amp; Pose RGE)</h2>
+          <div class="table-scroll-wrapper" style="border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 30px;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Type d'installation</th>
+                  <th>Puissance / Matériel</th>
+                  <th>Prix Moyen TTC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight: bold;">Kit Solaire 3 kWc</td>
+                  <td>8 panneaux monocristallins, micro-onduleurs, pose incluse</td>
+                  <td style="font-weight: bold; font-family: var(--font-mono);">7 000 – 9 500 €</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold;">Kit Solaire 6 kWc</td>
+                  <td>16 panneaux monocristallins, micro-onduleurs, pose incluse</td>
+                  <td style="font-weight: bold; font-family: var(--font-mono);">12 000 – 16 000 €</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold;">Kit Solaire 9 kWc</td>
+                  <td>24 panneaux monocristallins, micro-onduleurs, pose incluse</td>
+                  <td style="font-weight: bold; font-family: var(--font-mono);">16 000 – 22 000 €</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold;">Kit Solaire 12+ kWc</td>
+                  <td>Centrale photovoltaïque pour grande villa / triphasé</td>
+                  <td style="font-weight: bold; font-family: var(--font-mono);">20 000 – 30 000 €</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold;">Batterie Lithium 5 kWh</td>
+                  <td>Stockage lithium LFP, armoire de protection, régulateur</td>
+                  <td style="font-weight: bold; font-family: var(--font-mono);">4 000 – 6 000 €</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold;">Batterie Lithium 10 kWh</td>
+                  <td>Grande capacité pour autonomie de nuit ou secours (backup)</td>
+                  <td style="font-weight: bold; font-family: var(--font-mono);">6 500 – 8 000 €</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold;">Carport Solaire (2 voitures)</td>
+                  <td>Abri voitures en bois/alu, 10-12 panneaux solaires intégrés</td>
+                  <td style="font-weight: bold; font-family: var(--font-mono);">8 000 – 15 000 €</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold;">Entretien &amp; Nettoyage</td>
+                  <td>Lavage panneaux perche télescopique, contrôle électrique</td>
+                  <td style="font-weight: bold; font-family: var(--font-mono);">100 – 200 € / an</td>
+                </tr>
+                <tr>
+                  <td style="font-weight: bold;">Remplacement Onduleur</td>
+                  <td>Remplacement d'onduleur central (durée de vie 10-12 ans)</td>
+                  <td style="font-weight: bold; font-family: var(--font-mono);">1 000 – 2 500 €</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 style="font-family: var(--font-heading); font-size: 22px; color: var(--primary); margin-top: 30px; margin-bottom: 15px;">Comment se calcule la rentabilité nette de votre projet ?</h2>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px;">
+            Pour obtenir le coût net réel de vos travaux de panneaux solaires, vous devez déduire les subventions versées par l'État :
+          </p>
+          <ul style="margin-left: 20px; color: var(--text-muted); font-size: 14.5px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 30px;">
+            <li><strong>La prime à l'autoconsommation :</strong> Versée en une fois par l'État (ex: ~1 050€ pour 3 kWc, et ~1 560€ pour 6 kWc en 2026).</li>
+            <li><strong>La TVA réduite à 10% :</strong> Applicable sur le matériel et la main-d'œuvre pour les installations ≤ 3 kWc (au-delà, le taux normal de 20% s'applique).</li>
+            <li><strong>La vente de l'électricité excédentaire :</strong> Vente du surplus à EDF OA au tarif fixé par l'État (13 cts/kWh en 2026) sur une période de 20 ans.</li>
+          </ul>
+
+          <div style="background: white; border-radius: var(--radius-md); padding: 25px; border-left: 4px solid var(--secondary); margin-bottom: 30px; box-shadow: var(--shadow-sm);">
+            <h3 style="font-family: var(--font-heading); font-size: 18px; color: var(--primary); margin-bottom: 10px;">💡 Exemple concret d'installation 3 kWc à Marseille (13) :</h3>
+            <ul style="list-style: none; padding: 0; font-size: 14px; color: var(--text-muted); display: flex; flex-direction: column; gap: 6px;">
+              <li>• Investissement total matériel et pose RGE : <strong>8 000 € TTC</strong></li>
+              <li>• Prime à l'autoconsommation de l'État : <strong>- 1 050 €</strong></li>
+              <li>• Coût réel net de l'installation : <strong>6 950 €</strong></li>
+              <li>• Économies générées (autoconsommation) : <strong>~650 € / an</strong></li>
+              <li>• Vente de surplus d'électricité injectée : <strong>~200 € / an</strong></li>
+              <li>• Gain total par an : <strong>850 € / an</strong></li>
+              <li>• Temps de retour sur investissement : <strong>8.1 ans</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Sidebar form -->
+        <aside class="static-sidebar">
+          <div style="background: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 25px; box-shadow: var(--shadow-lg);">
+            <h3 style="text-align: center; margin-bottom: 15px; font-family: var(--font-heading);">Obtenir 3 Tarifs Réels</h3>
+            <StepsForm />
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+</Layout>
